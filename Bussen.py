@@ -39,7 +39,7 @@ buss = []
 def validName(namn):        #Kontrollerar att namnet endast inehåller bokstäver
     return namn.isalpha()
 
-def validAge(ålder):
+def validAge(ålder):        #Kontrollerar att ålder endast skrivs med siffror
     try:
         ålder = int(ålder)
         return ålder<0
@@ -52,9 +52,9 @@ def plockaUpp():
         print("Bussen är full.")
         return
 
-    namn = input("Ange namn:")
+    namn = input("Ange förnamn:")
     while not validName(namn):
-        print("Skriv ditt namn med bokstäver!")
+        print("Skriv ditt namn med endast bokstäver!")
         namn = input("Ange namn: ")
     
     ålder = int(input("Ange ålder: "))
