@@ -2,7 +2,7 @@
 """
 Titel: Bussen
 Författare: Joel, Lukas
-Datum: 2025-01-16
+Datum: 2025-01-17
 Det här är ett program för hantering av passagerare på en buss. Programmet
 lagrar passagerare i en lista.
 """
@@ -39,10 +39,10 @@ buss = []
 def validName(namn):        #Kontrollerar att namnet endast inehåller bokstäver
     return namn.isalpha()
 
-def validAge(ålder):        #Kontrollerar att ålder endast skrivs med siffror
+def validAge(ålder):
     try:
         ålder = int(ålder)
-        return ålder<0
+        return ålder > 0
     except ValueError:
         return False
 
@@ -54,24 +54,24 @@ def plockaUpp():
 
     namn = input("Ange förnamn:")
     while not validName(namn):
-        print("Skriv ditt namn med endast bokstäver!")
-        namn = input("Ange namn: ")
+        print("Skriv ditt förnamn med bokstäver!")
+        namn = input("Ange förnamn: ") 
+
     
     ålder = int(input("Ange ålder: "))
     while not validAge(ålder):
         print("Skriv ålder med siffror!")
+        ålder = int(input("Ange ålder: "))
 
-        person = Person(namn.capitalize(), int(ålder))
-        buss.append(person)
-        print(f"{namn.capitalize()} har stigit på bussen.")
-    else:
-        print("Bussen är full.")
+    person = Person(namn.capitalize(), int(ålder))
+    buss.append(person)
+    print(f"{namn.capitalize()} har stigit på bussen.")
 
 def gåAv():
     
     namn = input("Ange namn på passageraren som ska gå av: ")
     for person in buss:
-        if person.getNamn().lower() == namn.lower:
+        if person.getNamn() == namn:
             buss.remove(person)
             print(f"{namn} har gått av bussen.")
             return
@@ -90,7 +90,6 @@ def sammanlagdÅlder():
         total = sum(person.getÅlder() for person in buss)
         print(f"Sammanlagd ålder: {total} år.")
         return total
-
     else:
         print("Inga passagerare på bussen")
         return 0
@@ -158,7 +157,7 @@ def hittaPassagerare():
         for person in resultat:
             print(person)
     else:
-        print(f"Finns inga passagerare mellan {min_ålder} och {max_ålder} år.")
+        print(f"Inga passagerare mellan {min_ålder} och {max_ålder} år.")
 
 def peta():
     if not buss:
@@ -171,7 +170,14 @@ def peta():
             reaktioner = ["suckar", "ler", "ignorerar dig", "tittar argt på dig", "svarar med 'What the sigma'"]
             reaktion = rand.choice(reaktioner)
             print(f"{namn} {reaktion}.")
+            return
    
+    print(f"{namn} finnns inte på bussen.")     #Ifall namnet man skriver inte finns på bussen, skrivs detta ut.
+
+def visaLedigaPlatser():        #Vårat egna alternativ som visar antal lediga platser kvar på bussen
+    maxPlatser = 25
+    ledigaPlaster = maxPlatser - len(buss)
+    print(f"Antal lediga platser: {ledigaPlaster} av {maxPlatser}.")
 
 # ------------------------------ Huvudprogram --------------------------------- #
 def main():
@@ -186,7 +192,8 @@ def main():
             3. Skriv ut alla passagerare                        4. Beräkna sammanlagd ålder
             5. Beräkna medelåldern                              6. Hitta äldst person
             7. Sortera bussen                                   8. Hitta personer inom ett specifikt åldersspann
-            9. Peta på passagerare                              q. Avsluta
+            9. Peta på passagerare                             10. Visa antal lediga platser
+            q. Avsluta
         ---------------------------------------------------------------------------------------
         """)
 
@@ -210,8 +217,10 @@ def main():
             hittaPassagerare()
         elif menyVal == "9":
             peta()
+        elif menyVal == "10":
+            visaLedigaPlatser()
         elif menyVal == "q":
-            print("Bussen körde av vägen pga ishalka")
+            print("Bussen körde av vägen pga ishalka, programmet avslutas.")
         else:
             print("Ogiltigt val. Försök igen.")
     
