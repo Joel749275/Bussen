@@ -36,14 +36,34 @@ class Person:
 # En lista för att lagra passagerare
 buss = []
 
+def validName(namn):        #Kontrollerar att namnet endast inehåller bokstäver
+    return namn.isalpha()
+
+def validAge(ålder):
+    try:
+        ålder = int(ålder)
+        return ålder<0
+    except ValueError:
+        return False
+
 def plockaUpp():
     
-    if len(buss) < 25:
+    if len(buss) >= 25:
+        print("Bussen är full.")
+        return
+
+    namn = input("Ange namn:")
+    while not validName(namn):
+        print("Skriv ditt namn med bokstäver!")
         namn = input("Ange namn: ")
-        ålder = int(input("Ange ålder: "))
-        person = Person(namn, ålder)
+    
+    ålder = int(input("Ange ålder: "))
+    while not validAge(ålder):
+        print("Skriv ålder med siffror!")
+
+        person = Person(namn.capitalize(), int(ålder))
         buss.append(person)
-        print(f"{namn} har stigit på bussen.")
+        print(f"{namn.capitalize()} har stigit på bussen.")
     else:
         print("Bussen är full.")
 
@@ -51,7 +71,7 @@ def gåAv():
     
     namn = input("Ange namn på passageraren som ska gå av: ")
     for person in buss:
-        if person.getNamn() == namn:
+        if person.getNamn().lower() == namn.lower:
             buss.remove(person)
             print(f"{namn} har gått av bussen.")
             return
@@ -79,7 +99,7 @@ def medelÅlder():
     
     if buss:
         total = sammanlagdÅlder()
-        medel = total / len(buss)
+        medel = round(total / len(buss))
         print(f"Medelålder: {medel} år.")
         return medel
     else:
@@ -138,7 +158,7 @@ def hittaPassagerare():
         for person in resultat:
             print(person)
     else:
-        print(f"Inga passagerare mellan {min_ålder} och {max_ålder} år.")
+        print(f"Finns inga passagerare mellan {min_ålder} och {max_ålder} år.")
 
 def peta():
     if not buss:
